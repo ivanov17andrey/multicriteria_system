@@ -1,0 +1,31 @@
+body {
+    font-family: "Trebuchet MS", serif;
+}
+
+.table thead th {
+    vertical-align: middle;
+    text-align: center;
+}
+
+.table tbody th {
+    vertical-align: middle;
+    text-align: center;
+}
+
+.table tr td {
+    vertical-align: middle;
+}
+
+.num_cell {
+    text-align: center;
+}
+
+.form-control:disabled.criteria-selected {
+    border: none;
+    background: inherit;
+}
+
+.coeff-input {
+    width: 60px;
+    margin: auto;
+}
