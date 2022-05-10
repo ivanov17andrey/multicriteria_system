@@ -38,18 +38,62 @@ $(document).ready(function () {
 
         console.log(coeffs)
 
+        let directions = $(".direction-input option:selected").map(function () {
+            return $(this).text()
+        }).get().join(',')
+
         $.ajax({
             type: "POST",
-            url: '/get_table',
-            data: JSON.stringify({groups: selected, coefficients: coeffs}),
+            url: '/get_result',
+            data: JSON.stringify({
+                method: Number($('input[name="method"]:checked').val()),
+                groups: selected,
+                coefficients: coeffs,
+                directions: directions
+            }),
             contentType: "application/json; charset=utf-8",
             dataType: "json",
             success: function (data) {
+                console.log(data)
+                $('#logs').text(data.logs_py)
                 location.assign('/' + data.file)
             },
             error: function (data) {
+                alert('Вы что-то сделали не так')
                 console.log(data)
             },
         });
     })
+
+    $('#downloadTemplate').click(() => {
+        location.assign('/input_template.xlsx')
+    })
+
+    $('#uploadFile').click(() => {
+        let formData = new FormData();
+        let uploadFiles = document.getElementById('fileInput').files;
+        if (uploadFiles.length === 0) return
+        formData.append("file", uploadFiles[0])
+        formData.append("method", Number($('input[name="method"]:checked').val()))
+
+        $.ajax({
+            type: "POST",
+            url: '/upload',
+            data: formData,
+            dataType: 'json',
+            contentType: false,
+            processData: false,
+            success: function (resp) {
+                console.log(data)
+                $('#logs').text(data.logs_py)
+                location.assign('/' + resp.file)
+            },
+            error: function (data) {
+                alert('Вы что-то сделали не так')
+                console.log(data)
+            },
+        });
+    })
+
+
 });

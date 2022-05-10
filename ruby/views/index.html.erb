@@ -1,66 +1,55 @@
-<h3>Выберите группы критериев</h3>
+<h3>Выберите метод построения матрицы предпочтения Q</h3>
 
-<table class="table table-bordered">
-  <tbody>
-  <tr>
-    <th></th>
-    <% criteria.each do |c| %>
-      <!--      <th><%#= "K#{c[:num]}" %></th>-->
-      <th>
-        <div class="form-check form-check-inline">
-          <input class="criteria-checkbox form-check-input" type="checkbox" id="<%= "inlineCheckbox#{c[:num]}" %>" value="K<%= "#{c[:num]}" %>">
-          <label class="form-check-label" for="<%= "inlineCheckbox#{c[:num]}" %>"><%= "K#{c[:num]}" %></label>
-        </div>
-      </th>
-    <% end %>
-  </tr>
-  <tr>
-    <th>Название</th>
-    <% criteria.each do |c| %>
-      <th><%= "#{c[:name]}" %></th>
-    <% end %>
-  </tr>
-  <tr>
-    <th>Коэффициент</th>
-    <% criteria.each do |c| %>
-      <th><input type="number" value="<%= "#{c[:coefficient]}" %>" class="form-control coeff-input"></th>
-    <% end %>
-  </tr>
-  <tr>
-    <th></th>
-    <% criteria.each do |c| %>
-      <th><%= c[:direction] ? 'max' : 'min' %></th>
-    <% end %>
-  </tr>
-  </tbody>
-</table>
 <div class="row mb-3">
-  <div class="col-12 mb-2">
-
-  </div>
   <div class="col-12">
-    <button class="btn btn-outline-primary" type="button" id="addToList">Добавить</button>
-  </div>
-</div>
-
-<div class="row mb-3">
-  <div class="col-12 col-lg-6">
-    <div class="card" style="width: 100%;">
-      <div class="card-header">
-        Список групп критериев
-      </div>
-
-      <ul id="list" class="list-group list-group-flush">
-      </ul>
-
-      <div class="card-footer">
-        <button class="btn btn-outline-primary" type="button" id="use">Использовать</button>
-      </div>
+    <div class="form-check">
+      <input class="form-check-input" type="radio" name="method" id="method0" value="0" checked>
+      <label class="form-check-label" for="method0">
+        Минимальное расстояние
+      </label>
+    </div>
+    <div class="form-check">
+      <input class="form-check-input" type="radio" name="method" id="method1" value="1">
+      <label class="form-check-label" for="method1">
+        Среднее арифметическое
+      </label>
+    </div>
+    <div class="form-check">
+      <input class="form-check-input" type="radio" name="method" id="method2" value="2">
+      <label class="form-check-label" for="method2">
+        Медиана
+      </label>
+    </div>
+    <div class="form-check">
+      <input class="form-check-input" type="radio" name="method" id="method3" value="3">
+      <label class="form-check-label" for="method3">
+        Минимакс
+      </label>
     </div>
   </div>
 </div>
 
-<h3>Список дронов</h3>
+<h3>Скачайте файл образец и настройте значения на листах 1, 2, 3</h3>
+
+<div class="row mb-3">
+  <div class="col-12">
+    <button class="btn btn-outline-primary" type="button" id="downloadTemplate">Скачать</button>
+  </div>
+</div>
+
+<h3>Загрузите Excel файл с нужными значениями</h3>
+
+<div class="row mb-3">
+  <div class="col-12">
+    <input type="file" id="fileInput">
+    <button class="btn btn-outline-primary" type="button" id="uploadFile">Загрузить</button>
+  </div>
+</div>
+
+<hr>
+
+<h3>Или подберите коэффициенты важности и выберите группы критериев для предложенных альтернатив</h3>
+
 <div class="table-responsive table-striped table-hover" id="drones-table">
   <table class="table table-bordered">
     <thead>
@@ -98,4 +87,76 @@
     <% end %>
     </tbody>
   </table>
+</div>
+
+<h3>Выберите группы критериев</h3>
+
+<table class="table table-bordered">
+  <tbody>
+  <tr>
+    <th></th>
+    <% criteria.each do |c| %>
+      <!--      <th><%#= "K#{c[:num]}" %></th>-->
+      <th>
+        <div class="form-check form-check-inline">
+          <input class="criteria-checkbox form-check-input" type="checkbox" id="<%= "inlineCheckbox#{c[:num]}" %>" value="K<%= "#{c[:num]}" %>">
+          <label class="form-check-label" for="<%= "inlineCheckbox#{c[:num]}" %>"><%= "K#{c[:num]}" %></label>
+        </div>
+      </th>
+    <% end %>
+  </tr>
+  <tr>
+    <th>Название</th>
+    <% criteria.each do |c| %>
+      <th><%= "#{c[:name]}" %></th>
+    <% end %>
+  </tr>
+  <tr>
+    <th>Коэффициент</th>
+    <% criteria.each do |c| %>
+      <th><input type="number" value="<%= "#{c[:coefficient]}" %>" class="form-control coeff-input"></th>
+    <% end %>
+  </tr>
+  <tr>
+    <th></th>
+    <% criteria.each do |c| %>
+      <th>
+        <select class="direction-input form-control">
+          <% if c[:direction] == 'max' %>
+            <option selected>max</option>
+            <option>min</option>
+          <% else %>
+            <option>max</option>
+            <option selected>min</option>
+          <% end %>
+        </select>
+      </th>
+    <% end %>
+  </tr>
+  </tbody>
+</table>
+<div class="row mb-3">
+  <div class="col-12 mb-2">
+
+  </div>
+  <div class="col-12">
+    <button class="btn btn-outline-primary" type="button" id="addToList">Добавить</button>
+  </div>
+</div>
+
+<div class="row mb-3">
+  <div class="col-12 col-lg-6">
+    <div class="card" style="width: 100%;">
+      <div class="card-header">
+        Список групп критериев
+      </div>
+
+      <ul id="list" class="list-group list-group-flush">
+      </ul>
+
+      <div class="card-footer">
+        <button class="btn btn-outline-primary" type="button" id="use">Использовать</button>
+      </div>
+    </div>
+  </div>
 </div>

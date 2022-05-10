@@ -38,4 +38,4 @@ ALTER TABLE criteria
     ADD COLUMN coefficient smallint default 1;
 
 ALTER TABLE criteria
-    ADD COLUMN direction boolean default true;
+    ADD COLUMN direction varchar(255) default 'max';
