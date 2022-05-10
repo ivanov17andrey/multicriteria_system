@@ -56,6 +56,10 @@ $(document).ready(function () {
             success: function (data) {
                 console.log(data)
                 $('#logs').text(data.logs_py)
+                $('.collapse').addClass('show')
+                document.getElementById('accordion').scrollIntoView({
+                    behavior: 'smooth'
+                })
                 location.assign('/' + data.file)
             },
             error: function (data) {
@@ -83,10 +87,14 @@ $(document).ready(function () {
             dataType: 'json',
             contentType: false,
             processData: false,
-            success: function (resp) {
+            success: function (data) {
                 console.log(data)
                 $('#logs').text(data.logs_py)
-                location.assign('/' + resp.file)
+                $('.collapse').addClass('show')
+                document.getElementById('accordion').scrollIntoView({
+                    behavior: 'smooth'
+                })
+                location.assign('/' + data.file)
             },
             error: function (data) {
                 alert('Вы что-то сделали не так')

@@ -6,7 +6,11 @@ from solver import Solver
 
 _, timestamp_arg, method = sys.argv
 
-os.remove('logs/logs.txt')
+try:
+    os.remove('logs/logs.txt')
+except OSError:
+    pass
+
 filename = f'input{timestamp_arg}.xlsx'
 
 df_helicopters_from_file = pd.read_excel(f'ruby/public/uploads/{filename}', sheet_name=0)

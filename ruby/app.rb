@@ -36,10 +36,12 @@ end
 
 post '/upload' do
   p params
+  timestamp = Time.now.utc.strftime("%Y%m%d%H%M%S")
   tempfile = params['file']['tempfile']
-  filename = File.join __dir__, 'public', 'uploads', "input#{timestamp = Time.now.utc.strftime("%Y%m%d%H%M%S")}.xlsx"
+  filename = File.join __dir__, 'public', 'uploads', "input#{timestamp}.xlsx"
   File.open(filename, 'wb') { |f| f.write tempfile.read }
 
+  method = params['method']
   logs_py = `python3 get_result_from_file.py #{timestamp} #{method}`
   file = "results/result#{timestamp}.xlsx"
 

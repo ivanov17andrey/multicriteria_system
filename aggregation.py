@@ -1,6 +1,8 @@
 import numpy as np
 from utils import *
 
+np.set_printoptions(precision=3, suppress=True)
+
 
 class Aggregation:
 

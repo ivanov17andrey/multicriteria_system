@@ -3,6 +3,8 @@ import xlsxwriter
 from aggregation import Aggregation
 from utils import *
 
+np.set_printoptions(precision=3, suppress=True)
+
 
 class Solver:
 
@@ -46,7 +48,7 @@ class Solver:
             selected = with_min_d
             for meth in l:
                 print(f"{meth[1]}, суммарное расстояние {meth[2]}")
-            print(f"Метод с минимальным суммарным рсстоянием '{selected[1]}'")
+            print(f"Метод с минимальным суммарным расстоянием '{selected[1]}'")
             print(f"Суммарное расстояние {selected[2]}")
             print(f"Матрица имеет вид:\n'{selected[3]}")
         else:

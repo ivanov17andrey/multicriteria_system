@@ -12,7 +12,11 @@ DB_CFG = {
 }
 
 _, timestamp_arg, method, coeffs_arg, directions_arg, *groups_arg = sys.argv
-os.remove('logs/logs.txt')
+
+try:
+    os.remove('logs/logs.txt')
+except OSError:
+    pass
 
 coefficients = list(map(lambda x: int(x), coeffs_arg.split(',')))
 direction = list(map(lambda x: x, directions_arg.split(',')))
