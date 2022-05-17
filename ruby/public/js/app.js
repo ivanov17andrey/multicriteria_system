@@ -1,5 +1,5 @@
 $(document).ready(function () {
-    let list = $('#list')
+    var list = $('#list')
 
     $('#addToList').click((e) => {
         let checkboxes = $('input:checked.criteria-checkbox')
@@ -27,29 +27,60 @@ $(document).ready(function () {
 
 
     $('#use').click((e) => {
-        let selected = $('.criteria-selected').map(function () {
+        let cNames = $('.criteria-names input').map(function () {
             return this.value
         }).get()
+        console.log(cNames)
+        if (cNames.some((v) => v == '')) {
+            alert('Названия критериев должны быть заполнены')
+        }
+
+        let aNames = $('.alternative-name textarea').map(function () {
+            return $(this).val()
+        }).get()
+        console.log(aNames)
+        if (aNames.some((v) => v == '')) {
+            alert('Названия альтернатив должны быть заполнены')
+        }
+
+        $('.criteria-values').each(function () {
+            el = $(this)
+            data = el.data()
+            tableData.data[data.row][data.col] = el.children().val()
+        })
+        console.log(tableData.data)
+
+        if (tableData.data.flat().some((v) => v == '' || Number(v) <= 0)) {
+            alert('Значения критериев должны быть выбраны и не могу быть <= 0')
+        }
+
+        let selected = $('.criteria-selected').map(function () {
+            return this.value.replaceAll(' ', '').replaceAll(',', ';')
+        }).get()
+        console.log(selected)
 
         let coeffInputs = $('.coeff-input')
         let coeffs = coeffInputs.map(function () {
             return this.value
-        }).get().join(',')
-
+        }).get()
         console.log(coeffs)
 
         let directions = $(".direction-input option:selected").map(function () {
             return $(this).text()
-        }).get().join(',')
+        }).get()
+        console.log(directions)
 
         $.ajax({
             type: "POST",
             url: '/get_result',
             data: JSON.stringify({
                 method: Number($('input[name="method"]:checked').val()),
-                groups: selected,
-                coefficients: coeffs,
-                directions: directions
+                alternatives_names: aNames.join('|'),
+                criteria_names: cNames.join('|'),
+                estimates: tableData.data.map(g => g.join(';')).join('|'),
+                coefficients: coeffs.join('|'),
+                directions: directions.join('|'),
+                groups: selected.join('|'),
             }),
             contentType: "application/json; charset=utf-8",
             dataType: "json",
@@ -103,5 +134,129 @@ $(document).ready(function () {
         });
     })
 
+    function NArray(row, cols) {
+        const arr = []
+        for (let i = 0; i < row; i++) {
+            arr.push(Array(cols).fill(null))
+        }
+        return arr
+    }
+
+    var n = 30
+    var m = 9
+    var tableData = {
+        alternativesNum: n,
+        criteriaNum: m,
+        data: NArray(n, m)
+    }
+
+    $('#alt-num').val(tableData.alternativesNum)
+    $('#crit-num').val(tableData.criteriaNum)
+
+    console.log(tableData)
+
+    $('#create-table').click((e) => {
+        list.children().remove()
+        n = $('#alt-num').val()
+        m = $('#crit-num').val()
+
+        tableData.alternativesNum = n
+        tableData.criteriaNum = m
+        tableData.data = NArray(n, m)
+
+        const tableWrapper = $('#drones-table')
+        tableWrapper.children().remove()
+
+        const tableTemplate = $(`
+        <table class="table table-bordered">
+            <thead>
+            <tr class="criteria-nums">
+              <th></th>
+              <th></th>
+            </tr>
+            <tr class="criteria-row">
+              <th>#</th>
+              <th>Название</th>
+            </tr>
+            </thead>
+            
+            <tbody>
+            </tbody>
+          </table>
+        `)
+
+        tableWrapper.append(tableTemplate)
+
+        for (let i = 0; i < tableData.criteriaNum; i++) {
+            $('.criteria-nums').append(`<th>K${i + 1}</th>`)
+            cName = $(`<th><input type="text" class="table-input"></th>`)
+            cName.addClass(`criteria-names`)
+            cName.data('num', i)
+            $('.criteria-row').append(cName)
+        }
+
+        for (let j = 0; j < tableData.alternativesNum; j++) {
+            tRow = $(`<tr class="alternative-row"></tr>`)
+            tableTemplate.find('tbody').append(tRow)
+            tRow.append(`<th>A${j + 1}</th>`)
+            tRow.append(`<td class="alternative-name"><textarea class="table-input-text"></textarea></td>`)
+
+            for (let i = 0; i < tableData.criteriaNum; i++) {
+                cValue = $(`<td><input type="number" min="1" class="table-input"></td>`)
+                cValue.addClass(`criteria-values`)
+                cValue.data('row', j)
+                cValue.data('col', i)
+                tRow.append(cValue)
+            }
+        }
+
+        const criteriaTableWrapper = $('#criteria-table')
+        criteriaTableWrapper.children().remove()
+
+        const criteriaTableTemplate = $(`
+        <table class="table table-bordered">
+            <tbody>
+            <tr class="criteria-checkboxes">
+              <th></th>
+            </tr>
+<!--            <tr>-->
+<!--              <th>Название</th>-->
+<!--            </tr>-->
+            <tr class="criteria-coeffs">
+              <th>Коэффициент</th>
+            </tr>
+            <tr class="criteria-direction">
+              <th></th>
+            </tr>
+            </tbody>
+          </table>
+        `)
+
+        criteriaTableWrapper.append(criteriaTableTemplate)
+
+        for (let i = 0; i < tableData.criteriaNum; i++) {
+            $('.criteria-checkboxes').append(`
+                <th>
+                  <div class="form-check form-check-inline">
+                    <input class="criteria-checkbox form-check-input" type="checkbox" id="inlineCheckbox${i}" value="K${i+1}">
+                    <label class="form-check-label" for="inlineCheckbox${i}">K${i+1}</label>
+                  </div>
+                </th>
+            `)
+
+            $('.criteria-coeffs').append(`<th><input type="number" min="1" value="1" class="form-control coeff-input"></th>`)
+
+            $('.criteria-direction').append(`
+                <th>
+                  <select class="direction-input form-control">
+                    <% if c[:direction] == 'max' %>
+                      <option selected>max</option>
+                      <option>min</option>
+                  </select>
+                </th>
+            `)
+        }
+
+    })
 
 });

@@ -1,90 +1,195 @@
-<h3>Выберите метод построения матрицы предпочтения Q</h3>
+<!--<h3>Выберите метод построения матрицы предпочтения Q</h3>-->
+
+<!--<div class="row mb-3">-->
+<!--  <div class="col-12">-->
+<!--    <div class="form-check">-->
+<!--      <input class="form-check-input" type="radio" name="method" id="method0" value="0" checked>-->
+<!--      <label class="form-check-label" for="method0">-->
+<!--        Минимальное расстояние-->
+<!--      </label>-->
+<!--    </div>-->
+<!--    <div class="form-check">-->
+<!--      <input class="form-check-input" type="radio" name="method" id="method1" value="1">-->
+<!--      <label class="form-check-label" for="method1">-->
+<!--        Среднее арифметическое-->
+<!--      </label>-->
+<!--    </div>-->
+<!--    <div class="form-check">-->
+<!--      <input class="form-check-input" type="radio" name="method" id="method2" value="2">-->
+<!--      <label class="form-check-label" for="method2">-->
+<!--        Медиана-->
+<!--      </label>-->
+<!--    </div>-->
+<!--    <div class="form-check">-->
+<!--      <input class="form-check-input" type="radio" name="method" id="method3" value="3">-->
+<!--      <label class="form-check-label" for="method3">-->
+<!--        Минимакс-->
+<!--      </label>-->
+<!--    </div>-->
+<!--  </div>-->
+<!--</div>-->
+
+<!--<hr>-->
+
+<h2>Ввод данных</h2>
+
+<!--<h3>Файл образец</h3>-->
+
+<!--<div class="row mb-3">-->
+<!--  <div class="col-12">-->
+<!--    <button class="btn btn-outline-primary" type="button" id="downloadTemplate">Скачать</button>-->
+<!--  </div>-->
+<!--</div>-->
+
+<!--<h3>Загрузите Excel файл с нужными значениями</h3>-->
+
+<!--<div class="row mb-3">-->
+<!--  <div class="col-12">-->
+<!--    <input type="file" id="fileInput">-->
+<!--    <button class="btn btn-outline-primary" type="button" id="uploadFile">Загрузить</button>-->
+<!--  </div>-->
+<!--</div>-->
+
+<!--<hr>-->
 
 <div class="row mb-3">
-  <div class="col-12">
-    <div class="form-check">
-      <input class="form-check-input" type="radio" name="method" id="method0" value="0" checked>
-      <label class="form-check-label" for="method0">
-        Минимальное расстояние
-      </label>
+  <div class="col-6">
+    <div class="row mb-3">
+      <div class="col-12">
+        <h3>Файл образец Excel таблицы</h3>
+
+        <button class="btn btn-outline-primary" type="button" id="downloadTemplate">Скачать</button>
+      </div>
     </div>
-    <div class="form-check">
-      <input class="form-check-input" type="radio" name="method" id="method1" value="1">
-      <label class="form-check-label" for="method1">
-        Среднее арифметическое
-      </label>
+
+    <h3>Загрузите Excel файл с нужными значениями</h3>
+
+    <div class="row mb-3">
+      <div class="col-12">
+        <input type="file" id="fileInput">
+        <button class="btn btn-outline-primary" type="button" id="uploadFile">Загрузить</button>
+      </div>
     </div>
-    <div class="form-check">
-      <input class="form-check-input" type="radio" name="method" id="method2" value="2">
-      <label class="form-check-label" for="method2">
-        Медиана
-      </label>
+  </div>
+
+  <div class="col-6">
+    <h3>Выбор метода</h3>
+
+    <h5>1. По типу матриц предпочтения</h5>
+
+    <div class="pl-3 mb-2">
+      <div class="form-check">
+        <input class="form-check-input" type="radio" name="method" id="method1" value="1">
+        <label class="form-check-label" for="method1">
+          Среднее арифметическое
+        </label>
+      </div>
+      <div class="form-check">
+        <input class="form-check-input" type="radio" name="method" id="method2" value="2">
+        <label class="form-check-label" for="method2">
+          Медиана
+        </label>
+      </div>
+      <div class="form-check">
+        <input class="form-check-input" type="radio" name="method" id="method3" value="3">
+        <label class="form-check-label" for="method3">
+          Минимакс
+        </label>
+      </div>
     </div>
-    <div class="form-check">
-      <input class="form-check-input" type="radio" name="method" id="method3" value="3">
-      <label class="form-check-label" for="method3">
-        Минимакс
-      </label>
+
+
+    <h5>2. По минимальному расстоянию</h5>
+
+    <div class="pl-3">
+      <div class="form-check">
+        <input class="form-check-input" type="radio" name="method" id="method0" value="0" checked>
+        <label class="form-check-label" for="method0">
+          Все
+        </label>
+      </div>
     </div>
+
   </div>
 </div>
 
 <hr>
 
-<h3>Скачайте файл образец и настройте значения на листах 1, 2, 3</h3>
+<h3 class="mb-3">Или введите число альтернатив, количество критериев и заполните таблицу оценок</h3>
 
 <div class="row mb-3">
-  <div class="col-12">
-    <button class="btn btn-outline-primary" type="button" id="downloadTemplate">Скачать</button>
+  <div class="col-6">
+    <div class="form-group">
+      <label class="form-check-label" for="num">
+        Количество альтернатив
+      </label>
+      <input class="form-control" type="number" name="alt-num" id="alt-num" value="2">
+    </div>
+
+    <div class="form-group">
+      <label class="form-check-label" for="crit-num">
+        Количество критериев
+      </label>
+      <input class="form-control" type="number" name="crit-num" id="crit-num" value="2">
+    </div>
+
+    <button class="btn btn-primary" id="create-table">Создать таблицу</button>
   </div>
 </div>
-
-<h3>Загрузите Excel файл с нужными значениями</h3>
-
-<div class="row mb-3">
-  <div class="col-12">
-    <input type="file" id="fileInput">
-    <button class="btn btn-outline-primary" type="button" id="uploadFile">Загрузить</button>
-  </div>
-</div>
-
-<hr>
-
-<h3>Или подберите коэффициенты важности и выберите группы критериев для предложенных альтернатив</h3>
 
 <div class="table-responsive table-striped table-hover" id="drones-table">
   <table class="table table-bordered">
     <thead>
-    <tr>
+    <tr class="criteria-nums">
       <th></th>
       <th></th>
       <% criteria.each do |c| %>
         <th><%= "K#{c[:num]}" %></th>
       <% end %>
     </tr>
-    <tr>
+    <tr class="criteria-names">
       <th>#</th>
       <th>Название</th>
       <% criteria.each do |c| %>
-        <th><%= "#{c[:name]}" %></th>
+        <th class="criteria-names"><input type="text" class="table-input" value="<%= "#{c[:name]}" %>"></th>
       <% end %>
     </tr>
     </thead>
     <tbody>
 
-    <% helicopters.each_with_index do |h, i| %>
-      <tr>
+    <% helicopters.each_with_index do |h, i|
+      counter = -1
+    %>
+      <tr class="alternative-row">
         <th><%= "A#{i + 1}" %></th>
-        <td><%= h[:name] %></td>
-        <td class="num_cell"><%= h[:weight] %></td>
-        <td class="num_cell"><%= h[:duration] %></td>
-        <td class="num_cell"><%= h[:distance] %></td>
-        <td class="num_cell"><%= h[:height] %></td>
-        <td class="num_cell"><%= h[:speed] %></td>
-        <td class="num_cell"><%= h[:pixels] %></td>
-        <td class="num_cell"><%= h[:fps] %></td>
-        <td class="num_cell"><%= h[:rating].to_f %></td>
-        <td class="num_cell"><%= h[:price] %></td>
+        <td class="alternative-name"><textarea class="table-input-text"><%= h[:name] %></textarea></td>
+        <td class="criteria-values" data-row="<%= i %>" data-col="<%= counter += 1 %>">
+          <input type="number" min="1" class="table-input" value="<%= h[:weight] %>">
+        </td>
+        <td class="criteria-values" data-row="<%= i %>" data-col="<%= counter += 1 %>">
+          <input type="number" min="1" class="table-input" value="<%= h[:duration] %>">
+        </td>
+        <td class="criteria-values" data-row="<%= i %>" data-col="<%= counter += 1 %>">
+          <input type="number" min="1" class="table-input" value="<%= h[:distance] %>">
+        </td>
+        <td class="criteria-values" data-row="<%= i %>" data-col="<%= counter += 1 %>">
+          <input type="number" min="1" class="table-input" value="<%= h[:height] %>">
+        </td>
+        <td class="criteria-values" data-row="<%= i %>" data-col="<%= counter += 1 %>">
+          <input type="number" min="1" class="table-input" value="<%= h[:speed] %>">
+        </td>
+        <td class="criteria-values" data-row="<%= i %>" data-col="<%= counter += 1 %>">
+          <input type="number" min="1" class="table-input" value="<%= h[:pixels] %>">
+        </td>
+        <td class="criteria-values" data-row="<%= i %>" data-col="<%= counter += 1 %>">
+          <input type="number" min="1" class="table-input" value="<%= h[:fps] %>">
+        </td>
+        <td class="criteria-values" data-row="<%= i %>" data-col="<%= counter += 1 %>">
+          <input type="number" min="1" class="table-input" value="<%= h[:rating].to_f %>">
+        </td>
+        <td class="criteria-values" data-row="<%= i %>" data-col="<%= counter += 1 %>">
+          <input type="number" min="1" class="table-input" value="<%= h[:price] %>">
+        </td>
       </tr>
     <% end %>
     </tbody>
@@ -93,50 +198,53 @@
 
 <h3>Выберите группы критериев</h3>
 
-<table class="table table-bordered">
-  <tbody>
-  <tr>
-    <th></th>
-    <% criteria.each do |c| %>
-      <!--      <th><%#= "K#{c[:num]}" %></th>-->
-      <th>
-        <div class="form-check form-check-inline">
-          <input class="criteria-checkbox form-check-input" type="checkbox" id="<%= "inlineCheckbox#{c[:num]}" %>" value="K<%= "#{c[:num]}" %>">
-          <label class="form-check-label" for="<%= "inlineCheckbox#{c[:num]}" %>"><%= "K#{c[:num]}" %></label>
-        </div>
-      </th>
-    <% end %>
-  </tr>
-  <tr>
-    <th>Название</th>
-    <% criteria.each do |c| %>
-      <th><%= "#{c[:name]}" %></th>
-    <% end %>
-  </tr>
-  <tr>
-    <th>Коэффициент</th>
-    <% criteria.each do |c| %>
-      <th><input type="number" value="<%= "#{c[:coefficient]}" %>" class="form-control coeff-input"></th>
-    <% end %>
-  </tr>
-  <tr>
-    <th></th>
-    <% criteria.each do |c| %>
-      <th>
-        <select class="direction-input form-control">
-          <% if c[:direction] == 'max' %>
-            <option selected>max</option>
-            <option>min</option>
-          <% else %>
-            <option>max</option>
-            <option selected>min</option>
-          <% end %>
-        </select>
-      </th>
-    <% end %>
-  </tr>
-  </tbody>
-</table>
+<div class="table-responsive table-hover" id="criteria-table">
+  <table class="table table-bordered">
+    <tbody>
+    <tr>
+      <th></th>
+      <% criteria.each do |c| %>
+        <!--      <th><%#= "K#{c[:num]}" %></th>-->
+        <th>
+          <div class="form-check form-check-inline">
+            <input class="criteria-checkbox form-check-input" type="checkbox" id="<%= "inlineCheckbox#{c[:num]}" %>" value="K<%= "#{c[:num]}" %>">
+            <label class="form-check-label" for="<%= "inlineCheckbox#{c[:num]}" %>"><%= "K#{c[:num]}" %></label>
+          </div>
+        </th>
+      <% end %>
+    </tr>
+<!--    <tr>-->
+<!--      <th>Название</th>-->
+      <%# criteria.each do |c| %>
+<!--        <th><%#= "#{c[:name]}" %></th>-->
+      <%# end %>
+<!--    </tr>-->
+    <tr>
+      <th>Коэффициент</th>
+      <% criteria.each do |c| %>
+        <th><input type="number" min="1" value="<%= "#{c[:coefficient]}" %>" class="form-control coeff-input"></th>
+      <% end %>
+    </tr>
+    <tr>
+      <th></th>
+      <% criteria.each do |c| %>
+        <th>
+          <select class="direction-input form-control">
+            <% if c[:direction] == 'max' %>
+              <option selected>max</option>
+              <option>min</option>
+            <% else %>
+              <option>max</option>
+              <option selected>min</option>
+            <% end %>
+          </select>
+        </th>
+      <% end %>
+    </tr>
+    </tbody>
+  </table>
+</div>
+
 <div class="row mb-3">
   <div class="col-12 mb-2">
 

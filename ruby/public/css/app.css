@@ -34,3 +34,17 @@ body {
     width: 85px;
     margin: auto;
 }
+
+.table-input {
+    text-align: center;
+    border: none;
+    background: inherit;
+    width: 100%;
+}
+
+.table-input-text {
+    width: 100%;
+    min-width: 200px;
+    border: none;
+    background: inherit;
+}

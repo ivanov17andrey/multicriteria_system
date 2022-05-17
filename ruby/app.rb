@@ -10,24 +10,24 @@ DB = Sequel.connect('postgres://diploma:diploma@localhost:5432/diploma')
 get '/' do
   helicopters = DB[:helicopters].all
   criteria = DB[:criteria].order(:num).all
-  # erb result.all.to_json
+
   erb :index, layout: :layout, locals: { helicopters: helicopters, criteria: criteria }
 end
 
 post '/get_result' do
   json = JSON.parse(request.body.read)
+  p json
+
+  timestamp = Time.now.utc.strftime("%Y%m%d%H%M%S")
   method = json['method']
-  groups = json['groups'].map { |g| g.split(', ').map { |a| a[1..-1].to_i - 1 } }
+  alternatives_names = wrap json['alternatives_names']
+  criteria_names = wrap json['criteria_names']
+  estimates = wrap json['estimates']
   coeffs = wrap json['coefficients']
   directions = wrap json['directions']
-  params = groups.map { |g| wrap(g.join(',')) }.join(' ')
-  timestamp = Time.now.utc.strftime("%Y%m%d%H%M%S")
-  puts method
-  puts coeffs
-  puts directions
-  puts params
-  puts "python3 get_result.py #{timestamp} #{method} #{coeffs} #{directions} #{params}"
-  logs_py = `python3 get_result.py #{timestamp} #{method} #{coeffs} #{directions} #{params}`
+  groups = wrap json['groups']
+
+  logs_py = `python3 get_result.py #{timestamp} #{method} #{alternatives_names} #{criteria_names} #{estimates} #{coeffs} #{directions} #{groups}`
   file = "results/result#{timestamp}.xlsx"
 
   { file: file,
@@ -35,7 +35,6 @@ post '/get_result' do
 end
 
 post '/upload' do
-  p params
   timestamp = Time.now.utc.strftime("%Y%m%d%H%M%S")
   tempfile = params['file']['tempfile']
   filename = File.join __dir__, 'public', 'uploads', "input#{timestamp}.xlsx"
@@ -60,5 +59,5 @@ get '/get_template' do
 end
 
 def wrap(s)
-  "'#{s}'"
+  "\"#{s}\""
 end
