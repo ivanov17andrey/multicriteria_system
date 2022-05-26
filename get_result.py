@@ -1,10 +1,9 @@
-import psycopg2
-import pandas.io.sql as psql
 import pandas as pd
 import numpy as np
 import sys
 import os
 from solver import Solver
+from tabulate import tabulate
 
 DB_CFG = {
     'dbname': 'diploma',
@@ -29,7 +28,6 @@ directions = list(map(lambda x: x, directions_arg.split('|')))
 groups = list(
     map(lambda y: list(map(lambda z: int(z[1:]) - 1, y.split(';'))), list(map(lambda x: x, groups_arg.split('|')))))
 
-# print(alternatives_names, criteria_names, estimates, coeffs, directions, groups)
 
 criteria_dict = {
     'name': criteria_names,
@@ -41,37 +39,9 @@ df_criteria.insert(0, 'num', list(map(lambda x: x + 1, list(range(len(df_criteri
 
 df_alternatives = pd.concat([pd.DataFrame({'name': alternatives_names}), pd.DataFrame(estimates)], axis=1)
 
-# print(df_criteria)
-# print(df_alternatives)
-
 solver = Solver(df_alternatives, df_criteria)
 solver.get_xls(int(method_arg), groups, f'ruby/public/results/result{timestamp_arg}.xlsx')
 
-# coefficients = list(map(lambda x: int(x), coeffs_arg.split(',')))
-# direction = list(map(lambda x: x, directions_arg.split(',')))
-# groups = list(map(lambda x: list(map(lambda y: int(y), x.split(','))), groups_arg))
-#
-# conn = psycopg2.connect(**DB_CFG)
-# df_helicopters = psql.read_sql('''SELECT name,
-#                                weight,
-#                                duration,
-#                                distance,
-#                                height,
-#                                speed,
-#                                pixels,
-#                                fps,
-#                                rating,
-#                                price
-#                         FROM helicopters
-#                         ORDER BY id''', conn)
-#
-# df_criteria = psql.read_sql('''SELECT num, name
-#                         FROM criteria
-#                         ORDER BY num''', conn)
-#
-# df_criteria.insert(2, 'coefficient', coefficients)
-# df_criteria.insert(3, 'direction', direction)
-#
-# solver = Solver(df_helicopters, df_criteria)
-#
-# solver.get_xls(int(method_arg), groups, f'ruby/public/results/result{timestamp_arg}.xlsx')
+result = pd.read_excel(f'ruby/public/results/result{timestamp_arg}.xlsx', sheet_name=0)
+result.fillna('', inplace=True)
+print(tabulate(result, headers='keys', tablefmt='psql', showindex=False))

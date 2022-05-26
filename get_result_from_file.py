@@ -3,6 +3,7 @@ import re
 import sys
 import os
 from solver import Solver
+from tabulate import tabulate
 
 _, timestamp_arg, method = sys.argv
 
@@ -24,3 +25,7 @@ groups = list(
 
 solver = Solver(df_alternatives, df_criteria)
 solver.get_xls(int(method), groups, f'ruby/public/results/result{timestamp_arg}.xlsx')
+
+result = pd.read_excel(f'ruby/public/results/result{timestamp_arg}.xlsx', sheet_name=0)
+result.fillna('', inplace=True)
+print(tabulate(result, headers='keys', tablefmt='psql', showindex=False))
