@@ -19,11 +19,11 @@ class Solver:
         estimates = np.array(self.estimates)[:, selected]
         coefficients = np.array(self.coefficients)[selected]
         direction = np.array(self.direction)[selected]
-        print('_____________________________________________________')
-        print(f"Группа критериев {', '.join(list(map(lambda x: f'K{x + 1}', selected)))}\n")
-        print(f"Оценки по выбранным критерям\n{estimates}\n")
-        print(f"Коэффициенты по выбранным критерям\n{coefficients}\n")
-        print(f"Направление по выбранным критерям\n{direction}\n")
+        # print('_____________________________________________________')
+        # print(f"Группа критериев {', '.join(list(map(lambda x: f'K{x + 1}', selected)))}\n")
+        # print(f"Оценки по выбранным критерям\n{estimates}\n")
+        # print(f"Коэффициенты по выбранным критерям\n{coefficients}\n")
+        # print(f"Направление по выбранным критерям\n{direction}\n")
 
         preferences_matrices = Aggregation.get_preferences_matrices(estimates, direction)
         log_to_file('----- Метод Среднего Aрифметического -----\n')
@@ -46,16 +46,16 @@ class Solver:
 
         if method == 0:
             selected = with_min_d
-            for meth in l:
-                print(f"{meth[1]}, суммарное расстояние {meth[2]}")
-            print(f"Метод с минимальным суммарным расстоянием '{selected[1]}'")
-            print(f"Суммарное расстояние {selected[2]}")
-            print(f"Матрица имеет вид:\n'{selected[3]}")
+            # for meth in l:
+            #     print(f"{meth[1]}, суммарное расстояние {meth[2]}")
+            # print(f"Метод с минимальным суммарным расстоянием '{selected[1]}'")
+            # print(f"Суммарное расстояние {selected[2]}")
+            # print(f"Матрица имеет вид:\n'{selected[3]}")
         else:
             selected = next(x for x in l if x[0] == method)
-            print(f"Выбранный метод '{selected[1]}'")
-            print(f"Суммарное расстояние {selected[2]}")
-            print(f"Матрица имеет вид:\n {selected[3]}")
+            # print(f"Выбранный метод '{selected[1]}'")
+            # print(f"Суммарное расстояние {selected[2]}")
+            # print(f"Матрица имеет вид:\n {selected[3]}")
 
         return selected[4][1]
 

@@ -88,7 +88,8 @@ $(document).ready(function () {
                 console.log(data)
                 $('#logs').text(data.logs_py)
                 $('.collapse').addClass('show')
-                document.getElementById('accordion').scrollIntoView({
+                $('#retry').removeClass('d-none')
+                document.getElementById('result').scrollIntoView({
                     behavior: 'smooth'
                 })
                 location.assign('/' + data.file)
@@ -122,7 +123,8 @@ $(document).ready(function () {
                 console.log(data)
                 $('#logs').text(data.logs_py)
                 $('.collapse').addClass('show')
-                document.getElementById('accordion').scrollIntoView({
+                $('#retry').removeClass('d-none')
+                document.getElementById('result').scrollIntoView({
                     behavior: 'smooth'
                 })
                 location.assign('/' + data.file)
@@ -164,7 +166,7 @@ $(document).ready(function () {
         tableData.criteriaNum = m
         tableData.data = NArray(n, m)
 
-        const tableWrapper = $('#drones-table')
+        const tableWrapper = $('#estimates-table')
         tableWrapper.children().remove()
 
         const tableTemplate = $(`
@@ -219,9 +221,6 @@ $(document).ready(function () {
             <tr class="criteria-checkboxes">
               <th></th>
             </tr>
-<!--            <tr>-->
-<!--              <th>Название</th>-->
-<!--            </tr>-->
             <tr class="criteria-coeffs">
               <th>Коэффициент</th>
             </tr>
@@ -258,5 +257,10 @@ $(document).ready(function () {
         }
 
     })
+
+    $('#change-method').click(() => document.getElementById('select-method').scrollIntoView({behavior: 'smooth'}))
+    $('#change-nums').click(() => document.getElementById('select-nums').scrollIntoView({behavior: 'smooth'}))
+    $('#change-estimates').click(() => document.getElementById('estimates-table').scrollIntoView({behavior: 'smooth'}))
+    $('#change-coeffs').click(() => document.getElementById('select-groups').scrollIntoView({behavior: 'smooth'}))
 
 });
